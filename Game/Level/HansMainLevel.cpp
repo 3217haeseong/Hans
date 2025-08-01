@@ -79,3 +79,33 @@ void HansMainLevel::ReadMapFile(const char* filename)
 	// 파일 닫기.
 	fclose(file);
 }
+
+void HansMainLevel::LoadConvesation(ConversationStep conversationstep)
+{
+	//switch (conversationstep)
+	//{
+	//	case ConversationStep::Start :
+	//		// Todo: 해당하는 파일 대사 읽기
+	//		// 한 줄씩 넘기는 
+	//		
+	//		break;
+	//	case ConversationStep::NoDamage :
+	//		// Todo: 해당하는 파일 대사 읽기
+	//		// 한 줄씩 넘기는
+	//		
+	//		break;
+	//	case ConversationStep::OnDamage :
+	//		// Todo: 해당하는 파일 대사 읽기
+	//		// 한 줄씩 넘기는
+	//		break;
+	//	case ConversationStep::PlayerDead :
+	//		// Todo: 해당하는 파일 대사 읽기
+	//		// 한 줄씩 넘기는
+	//		break;
+
+	//	case ConversationStep::Finish :
+	//		// Todo: 해당하는 파일 대사 읽기
+	//		// 한 줄씩 넘기는
+	//		break;
+	//}
+}
