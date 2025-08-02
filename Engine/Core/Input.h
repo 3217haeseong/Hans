@@ -21,11 +21,11 @@ public:
 	bool GetKey(int keyCode);
 	bool GetKeyDown(int keyCode);
 	bool GetKeyUp(int keyCode);
-	
+
 	static Input& Get();
 
 private:
-	void ProcessInput();  
+	void ProcessInput();
 	void SavePreviousKeyStates();
 
 private:

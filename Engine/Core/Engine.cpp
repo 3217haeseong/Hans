@@ -75,8 +75,8 @@ void Engine::Run()
 	QueryPerformanceFrequency(&frequency);
 
 	// 타켓 프레임.
-	float targetFrameRate 
-		= settings.framerate == 0.0f ? 60.0f : settings.framerate ;
+	float targetFrameRate
+		= settings.framerate == 0.0f ? 60.0f : settings.framerate;
 
 	// 타켓 한 프레임 시간.
 	float oneFrameTime = 1.0f / targetFrameRate;
@@ -95,14 +95,14 @@ void Engine::Run()
 		QueryPerformanceCounter(&currentTime);
 
 		float deltaTime = (currentTime.QuadPart - previousTime.QuadPart)
-			               / (float)frequency.QuadPart;
+			/ (float)frequency.QuadPart;
 
 		// 입력은 최대한 빨리.
 		input.ProcessInput();
 		if (deltaTime >= oneFrameTime)
 		{
 			BeginPlay();
-		Tick(deltaTime);
+			Tick(deltaTime);
 			Render();
 
 			// 제목에 FPS 출력.
@@ -115,14 +115,14 @@ void Engine::Run()
 
 			// 현재 프레임의 입력을 기록.
 			input.SavePreviousKeyStates();
-			
+
 			// 이전 프레임에 추가 및 삭제 요청된 액터 처리.
 			if (mainLevel)
 			{
 				mainLevel->ProcessAddAndDestroyActors();
 			}
 		}
-		
+
 	}
 
 	// 정리(텍스트 색상 원래대로 돌려놓기).
@@ -183,23 +183,23 @@ void Engine::BeginPlay()
 
 void Engine::Tick(float deltaTime)
 {
-	/*std::cout << "DeltaTime: " << deltaTime 
-		      << ", FPS : "    <<(1.0f / deltaTime) 
-		      << "\n";*/
-	/*if (GetKeyDown('A'))
-	{
-		std::cout << "KeyDown\n";
-	}
-	if (GetKey('A'))
-	{
-		std::cout << "Key\n";
-	}
-	if (GetKeyUp('A'))
-	{
-		std::cout << "KeyUp\n";
-	}*/
+	/*std::cout << "DeltaTime: " << deltaTime
+			  << ", FPS : "    <<(1.0f / deltaTime)
+			  << "\n";*/
+			  /*if (GetKeyDown('A'))
+			  {
+				  std::cout << "KeyDown\n";
+			  }
+			  if (GetKey('A'))
+			  {
+				  std::cout << "Key\n";
+			  }
+			  if (GetKeyUp('A'))
+			  {
+				  std::cout << "KeyUp\n";
+			  }*/
 
-	//레벨 업데이트.
+			  //레벨 업데이트.
 	if (mainLevel)
 	{
 		mainLevel->Tick(deltaTime);
@@ -232,7 +232,7 @@ void Engine::LoadEngineSettings()
 	fopen_s(&file, "../Settings/EngineSettings.txt", "rt");
 	if (file == nullptr)
 	{
-		std::cout << "Failed to load engine settings.\n";	
+		std::cout << "Failed to load engine settings.\n";
 		__debugbreak();
 		return;
 	}
@@ -258,18 +258,18 @@ void Engine::LoadEngineSettings()
 	// 파싱(Parcing, 구문 해석 -> 필요한 정보를 얻는 과정).
 	char* context = nullptr;
 	char* token = nullptr;
-	token = strtok_s(buffer, "\n",&context);
+	token = strtok_s(buffer, "\n", &context);
 
 	while (token != nullptr)
 	{
 		// 키/값 분리.
-		char header[10] ={};
+		char header[10] = {};
 
 		// 아래 구문이 제대로 동작하려면 키와 값 사이의 빈칸이 있어야 함.
 		sscanf_s(token, "%s", header, 10);
 
 		// 헤더 문자열 비교.
-		if (strcmp(header, "framerate")==0)
+		if (strcmp(header, "framerate") == 0)
 		{
 			sscanf_s(token, "framrate = %f", &settings.framerate);
 		}

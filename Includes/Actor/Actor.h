@@ -24,12 +24,12 @@ public:
 		const Vector2& position = Vector2::Zero);
 
 	virtual ~Actor();
-	
+
 	// 이벤트 함수. 
 
 	// 객체 생애주기(Lifetime)에 1번만 호출됨 (초기화 목적).
-	virtual void BeginPlay();  
-	
+	virtual void BeginPlay();
+
 	// 프레임마다 호출 (반복성 작업/ 지속성이 필요한 작업).
 	virtual void Tick(float deltaTime);
 
@@ -44,7 +44,7 @@ public:
 
 	// 문자열 길이 반환.
 	int Width() const;
-	
+
 	// Soring Order 설.
 	void SetSortingOrder(unsigned int sortingOrder);
 
@@ -89,5 +89,5 @@ protected:
 
 	// 소유 레벨(오너십)
 	Level* owner = nullptr;
-	
+
 };

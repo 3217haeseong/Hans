@@ -6,7 +6,7 @@
 #include <Windows.h>
 #include <iostream>
 
-Actor::Actor(const char* image, Color color, const Vector2& position) 
+Actor::Actor(const char* image, Color color, const Vector2& position)
 	: color(color), position(position)
 {
 	// 문자열 길이.
@@ -57,9 +57,9 @@ void Actor::Render()
 void Actor::SetPosition(const Vector2& newPosition)
 {
 	// 예외처리 (화면 벗어났는지 확인.)
-	
+
 	// 왼쪽 가장자리가 화면을 벗어났는지.
-	if (newPosition.x <0)
+	if (newPosition.x < 0)
 	{
 		return;
 	}
@@ -71,7 +71,7 @@ void Actor::SetPosition(const Vector2& newPosition)
 	}
 
 	// 위쪽 가장자리가 화면의 위를 벗어났는지
-	if (newPosition.y<0)
+	if (newPosition.y < 0)
 	{
 		return;
 	}
@@ -120,7 +120,7 @@ void Actor::SetOwner(Level* newOwner)
 	owner = newOwner;
 }
 
-Level* Actor::GetOwner() 
+Level* Actor::GetOwner()
 {
 	return owner;
 }
@@ -146,7 +146,7 @@ bool Actor::TestIntersect(const Actor* const other)
 	{
 		return false;
 	}
-	
+
 	// 다른 액터의 오른쪽 좌표가 내 왼쪽 좌표보다 더 왼쪽에 있으면 안 겹침.
 	if (otherXMax < xMin)
 	{
@@ -166,7 +166,7 @@ void Actor::Destroy()
 	isExpired = true;
 
 	// 레벨에 삭제 용청.
-	owner -> DestroyActor(this);
+	owner->DestroyActor(this);
 }
 
 void Actor::QuitGame()

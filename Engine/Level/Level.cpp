@@ -37,7 +37,7 @@ void Level::AddActor(Actor* newActor)
 
 	// 오너십 설정.
 	//newActor->SetOwner(this);
-	
+
 }
 void Level::DestroyActor(Actor* destroyedActor)
 {
@@ -50,7 +50,7 @@ void Level::BeginPlay()
 	for (Actor* const actor : actors)
 	{
 		// 액터 처리 여부 확인.
-		if (!actor->isActive || actor -> isExpired)
+		if (!actor->isActive || actor->isExpired)
 		{
 			continue;
 		}
@@ -90,7 +90,7 @@ void Level::Render()
 		}
 
 		// 검사 (같은 위치에 정렬 순서 높은 액터가 있는지 확인).
-		Actor* searchedActor= nullptr;
+		Actor* searchedActor = nullptr;
 		for (Actor* const otherActor : actors)
 		{
 			if (actor == otherActor)
@@ -117,7 +117,7 @@ void Level::Render()
 		}
 
 		actor->Render();
-		
+
 	}
 }
 

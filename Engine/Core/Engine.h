@@ -23,7 +23,7 @@ class Level;
 class Engine_API Engine
 {
 	// 키입력 확인을 위한 구조체
-	
+
 public:
 	// 생성자
 	Engine();
@@ -52,7 +52,7 @@ public:
 private:
 
 	void BeginPlay();
-	void Tick(float deltaTime =0.0f);
+	void Tick(float deltaTime = 0.0f);
 	void Render();
 
 	// 엔진 설정 로드 함수.
@@ -67,12 +67,12 @@ protected:
 
 	// 입력 관리자
 	Input input;
-	
+
 	// 엔진 설정.
 	EngineSettings settings;
 
 	// 싱글톤 변수.
 	static Engine* instance;
 
-	
+
 };
