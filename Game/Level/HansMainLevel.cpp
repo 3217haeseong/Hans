@@ -1,14 +1,15 @@
 #include "HansMainLevel.h"
 #include "iostream"
-#include <cstdio>
-#include <wchar.h>
+#include <Math/Vector2.h>
+#include "Utils/Utils.h"
 
 HansMainLevel::HansMainLevel()
 {
-	ReadMapFile("Hans.txt");
+	ReadFile("Hans.txt");
+	LoadConversation(ConversationStep::Start);
 }
 
-void HansMainLevel::ReadMapFile(const char* filename)
+void HansMainLevel::ReadFile(const char* filename)
 {
 
 	char filepath[100] = {};
@@ -67,9 +68,7 @@ void HansMainLevel::ReadMapFile(const char* filename)
 			continue;
 		}
 
-
 		std::cout << mapCharacter;
-	
 
 	}
 
@@ -82,30 +81,33 @@ void HansMainLevel::ReadMapFile(const char* filename)
 
 void HansMainLevel::LoadConvesation(ConversationStep conversationstep)
 {
-	//switch (conversationstep)
-	//{
-	//	case ConversationStep::Start :
-	//		// Todo: 해당하는 파일 대사 읽기
-	//		// 한 줄씩 넘기는 
-	//		
-	//		break;
-	//	case ConversationStep::NoDamage :
-	//		// Todo: 해당하는 파일 대사 읽기
-	//		// 한 줄씩 넘기는
-	//		
-	//		break;
-	//	case ConversationStep::OnDamage :
-	//		// Todo: 해당하는 파일 대사 읽기
-	//		// 한 줄씩 넘기는
-	//		break;
-	//	case ConversationStep::PlayerDead :
-	//		// Todo: 해당하는 파일 대사 읽기
-	//		// 한 줄씩 넘기는
-	//		break;
+	const Vector2 position(19, 2);
+	SetConsolePosition(position);
+	switch (conversationstep)
+	{
+		case ConversationStep::Start :
+			// Todo: 해당하는 파일 대사 읽기
+			// 한 줄씩 넘기는 
+			ReadFile("StartConversation.txt");
+			break;
+		case ConversationStep::NoDamage :
+			// Todo: 해당하는 파일 대사 읽기
+			// 한 줄씩 넘기는
+			
+			break;
+		case ConversationStep::OnDamage :
+			// Todo: 해당하는 파일 대사 읽기
+			// 한 줄씩 넘기는
+			break;
+		case ConversationStep::PlayerDead :
+			// Todo: 해당하는 파일 대사 읽기
+			// 한 줄씩 넘기는
+			break;
 
-	//	case ConversationStep::Finish :
-	//		// Todo: 해당하는 파일 대사 읽기
-	//		// 한 줄씩 넘기는
-	//		break;
-	//}
+		case ConversationStep::Finish :
+			// Todo: 해당하는 파일 대사 읽기
+			// 한 줄씩 넘기는
+			break;
+	}
 }
+
