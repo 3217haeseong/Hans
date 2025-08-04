@@ -3,14 +3,16 @@
 #include "Math/Vector2.h"
 #include "Utils/Utils.h"
 #include "Actor/AttackBar.h"
+#include "Actor/Player.h"
 
 HansMainLevel::HansMainLevel()
 {
 	ReadFile("Hans.txt",0);
-	LoadConversation(ConversationStep::Start);
-	std::cin.get();
-	BoxClear();
-	LoadAttackStage();
+	
+	//LoadConversation(ConversationStep::Start);
+	
+	//	BoxClear();
+	 LoadAttackStage();
 }
 
 void HansMainLevel::ReadFile(const char* filename, int type)
@@ -135,6 +137,8 @@ void HansMainLevel::LoadAttackStage()
 {
 	Utils::SetCursorBoxStart();
 	ReadFile("Attack.txt",0);
-	AddActor(new AttackBar);
+	Vector2 PlayerPosition(44, 25);
+	//AddActor(new Player(PlayerPosition));
+	AddActor(new AttackBar());
 }
 

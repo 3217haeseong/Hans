@@ -30,7 +30,7 @@ void Level::AddActor(Actor* newActor)
 	//addRequestedActors.emplace_back(newActor);
 
 	// 오너십 설정.
-	//newActor->SetOwner(this);
+	newActor->SetOwner(this);
 
 }
 void Level::DestroyActor(Actor* destroyedActor)

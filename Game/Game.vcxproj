@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Actor\AttackBar.cpp" />
     <ClCompile Include="Actor\Player.cpp" />
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="Level\HansMainLevel.cpp" />

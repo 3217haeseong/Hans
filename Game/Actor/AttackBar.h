@@ -4,9 +4,10 @@
 
 class AttackBar : public Actor
 {
+	RTTI_DECLARATIONS(AttackBar, Actor)
 public:
-
-	RTTI_DECLARATIONS(AttackBar, Actor);
+	AttackBar();
+	
 
 private:
 };

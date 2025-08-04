@@ -1,6 +1,8 @@
 #include "Player.h"
 
-Player::Player(const char* image)
+Player::Player(Vector2 position)
+			: Actor("*\n***\n*",Color::Red)
 {
+	SetPosition(position);
 
 }

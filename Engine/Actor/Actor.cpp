@@ -9,14 +9,13 @@
 Actor::Actor(const char* image, Color color, const Vector2& position)
 	: color(color), position(position)
 {
-	// 문자열 길이.
-	width = (int)strlen(image);
+	SetWidthAndHeight(image);
 
 	// 메모리 할당.
-	this->image = new char[width + 1];
+	this->image = new char[length+1 ];
 
 	// 문자열 복사.
-	strcpy_s(this->image, width + 1, image);
+	strcpy_s(this->image, length+ 1, image);
 }
 Actor::~Actor()
 {
@@ -108,6 +107,46 @@ Vector2 Actor::Position() const
 int Actor::ActorWidth() const
 {
 	return width;
+}
+
+int Actor::ActorHeight() const
+{
+	return height;
+}
+
+void Actor::SetWidthAndHeight(const char* image)
+{
+	int TempWidth=0;
+	int MaxWidth = -1;
+	int TempHeight=1;
+	int i;
+
+	for (i = 0; image[i] != '\0'; ++i)
+	{
+		if (image[i] == '\n')
+		{
+			++TempHeight;
+			if (MaxWidth < TempWidth)
+			{
+				MaxWidth = TempWidth;
+			}
+			TempWidth = 0;
+		}
+		else {
+			++TempWidth;
+		}
+	}
+
+	if (MaxWidth < TempWidth)
+	{
+		MaxWidth = TempWidth;
+		TempWidth = 0;
+	}
+
+
+	this->height = TempHeight;
+	this->width = MaxWidth;
+	this->length = i;
 }
 
 

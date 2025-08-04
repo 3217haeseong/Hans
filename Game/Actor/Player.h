@@ -3,10 +3,10 @@
 
 class Player : public Actor
 {
-	RTTI_DECLARATIONS(Player,Actor);
+	RTTI_DECLARATIONS(Player, Actor)
 
 public:
-	Player(const char* image);
+	Player(Vector2 position);
 private:
 
 };

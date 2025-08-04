@@ -47,6 +47,8 @@ public:
 
 	int ActorHeight() const;
 
+	void SetWidthAndHeight(const char* image);
+
 	// Soring Order 설.
 	void SetSortingOrder(unsigned int sortingOrder);
 
@@ -76,6 +78,8 @@ protected:
 
 	// 세로 길이.
 	int height = 0;
+
+	int length=0;
 
 	// 텍스트 색상 값.
 	Color color;
