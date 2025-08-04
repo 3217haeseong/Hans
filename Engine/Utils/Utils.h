@@ -23,6 +23,8 @@ namespace Utils
 		return GetStdHandle(STD_OUTPUT_HANDLE);
 	}
 
+	
+
 	// 콘솔 커서 위치 이동 함수.
 	inline void SetConsolePosition(COORD coord)
 	{
@@ -46,6 +48,14 @@ namespace Utils
 	{
 		static HANDLE handle = GetConsoleHandle();
 		SetConsoleTextColor(static_cast<WORD>(color));
+	}
+
+	// 콘솔 커서 위치를 박스 안으로 설정하는 함수.
+	inline void SetCursorBoxStart()
+	{
+		Vector2 position(1, 18);
+		static HANDLE handle = GetConsoleHandle();
+		SetConsolePosition(position);
 	}
 
 	// 랜던 생성 함수.

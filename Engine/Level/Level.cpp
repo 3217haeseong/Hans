@@ -13,14 +13,6 @@ Level::~Level()
 	// 메모리 해제.
 	for (Actor* actor : actors)
 	{
-		// null 확인 후 액터 제거.
-		//if (actor)
-		//{
-		//	// 삭제 및 메모리 정리.
-		//	delete actor;
-		//	actor = nullptr;
-		//}
-
 		SafeDelete(actor);
 	}
 
@@ -32,8 +24,10 @@ void Level::AddActor(Actor* newActor)
 {
 	// 예외처리 (중복 여부 확인) 필요함.
 
+	actors.emplace_back(newActor);
+
 	// 대기 배열에 추가.
-	addRequestedActors.emplace_back(newActor);
+	//addRequestedActors.emplace_back(newActor);
 
 	// 오너십 설정.
 	//newActor->SetOwner(this);

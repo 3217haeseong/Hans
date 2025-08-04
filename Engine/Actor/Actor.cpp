@@ -105,10 +105,11 @@ Vector2 Actor::Position() const
 	return position;
 }
 
-int Actor::Width() const
+int Actor::ActorWidth() const
 {
 	return width;
 }
+
 
 void Actor::SetSortingOrder(unsigned int sortingOrder)
 {

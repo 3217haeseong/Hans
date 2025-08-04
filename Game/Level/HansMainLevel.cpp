@@ -1,22 +1,30 @@
 #include "HansMainLevel.h"
 #include "iostream"
-#include <Math/Vector2.h>
+#include "Math/Vector2.h"
 #include "Utils/Utils.h"
+#include "Actor/AttackBar.h"
 
 HansMainLevel::HansMainLevel()
 {
-	ReadFile("Hans.txt");
+	ReadFile("Hans.txt",0);
 	LoadConversation(ConversationStep::Start);
+	std::cin.get();
+	BoxClear();
+	LoadAttackStage();
 }
 
-void HansMainLevel::ReadFile(const char* filename)
+void HansMainLevel::ReadFile(const char* filename, int type)
 {
-
 	char filepath[100] = {};
 	sprintf_s(filepath, 100, "../Assets/%s", filename);
 
 	FILE* file = nullptr;
 	fopen_s(&file, filepath, "rt");
+
+	if(type == 1)
+	{
+		std::locale::global(std::locale(".UTF-8"));
+	}
 
 	// 예외 처리.
 	if (file == nullptr)
@@ -45,6 +53,7 @@ void HansMainLevel::ReadFile(const char* filename)
 	// 배열 순회를 위한 인덱스 변수.
 	int index = 0;
 
+
 	// 문자열 길이 값.
 	int size = (int)readSize;
 
@@ -60,15 +69,17 @@ void HansMainLevel::ReadFile(const char* filename)
 		// 개행 문자 처리.
 		if (mapCharacter == '\n')
 		{
-			// 다음 줄로 넘기면서, x 좌표 초기화.
-			//++position.y;
-			//position.x = 0;
 
 			std::cout << "\n";
+			if (type == 1)
+			{
+				std::cout << " ";
+			}
 			continue;
 		}
 
 		std::cout << mapCharacter;
+
 
 	}
 
@@ -79,35 +90,51 @@ void HansMainLevel::ReadFile(const char* filename)
 	fclose(file);
 }
 
-void HansMainLevel::LoadConvesation(ConversationStep conversationstep)
-{
-	const Vector2 position(19, 2);
-	SetConsolePosition(position);
+void HansMainLevel::LoadConversation(ConversationStep conversationstep)
+{	
+	Utils::SetCursorBoxStart();
+
 	switch (conversationstep)
 	{
 		case ConversationStep::Start :
-			// Todo: 해당하는 파일 대사 읽기
-			// 한 줄씩 넘기는 
-			ReadFile("StartConversation.txt");
+			ReadFile("StartConversation.txt",1);
 			break;
 		case ConversationStep::NoDamage :
-			// Todo: 해당하는 파일 대사 읽기
-			// 한 줄씩 넘기는
-			
+			ReadFile("NoDamageConversation.txt", 1);
 			break;
 		case ConversationStep::OnDamage :
-			// Todo: 해당하는 파일 대사 읽기
-			// 한 줄씩 넘기는
+			ReadFile("OnDamage.txt", 1);
 			break;
 		case ConversationStep::PlayerDead :
-			// Todo: 해당하는 파일 대사 읽기
-			// 한 줄씩 넘기는
+			ReadFile("PlayerDeadConversation.txt", 1);
 			break;
 
 		case ConversationStep::Finish :
-			// Todo: 해당하는 파일 대사 읽기
-			// 한 줄씩 넘기는
+			ReadFile("FinishConversation.txt", 1);
 			break;
 	}
+}
+
+
+void HansMainLevel::BoxClear()
+{
+	
+	for (int line = 18; line <= 31; line++)
+	{
+		Utils::SetConsolePosition(Vector2(1, line));
+		for (int ix = 1; ix < 87; ix++)
+		{
+			std::cout << " ";
+		}
+		std::cout << "\n";
+	}
+	
+}
+
+void HansMainLevel::LoadAttackStage()
+{
+	Utils::SetCursorBoxStart();
+	ReadFile("Attack.txt",0);
+	AddActor(new AttackBar);
 }
 

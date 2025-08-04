@@ -43,7 +43,9 @@ public:
 	Vector2 Position() const;
 
 	// 문자열 길이 반환.
-	int Width() const;
+	int ActorWidth() const;
+
+	int ActorHeight() const;
 
 	// Soring Order 설.
 	void SetSortingOrder(unsigned int sortingOrder);
@@ -71,6 +73,9 @@ protected:
 
 	// 문자열 길이.
 	int width = 0;
+
+	// 세로 길이.
+	int height = 0;
 
 	// 텍스트 색상 값.
 	Color color;

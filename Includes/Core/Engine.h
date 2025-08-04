@@ -13,10 +13,14 @@ struct EngineSettings
 	// 콘솔 화면 세로 크기.
 	int height = 0;
 
+	// 콘솔 창 크기(가로).
+	int screenSizeX = 0;
+	
+	// 콘솔 창 크기(세로).
+	int screenSizeY = 0;
+
 	// 타겟 프레임 속도.
 	float framerate = 0.0f;
-
-
 };
 
 class Level;

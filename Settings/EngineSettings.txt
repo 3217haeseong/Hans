@@ -1,3 +1,5 @@
 width = 1000
 height = 1500
+sizeX = 1280
+sizeY = 800
 framerate = 120

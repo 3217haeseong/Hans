@@ -11,18 +11,25 @@ enum class ConversationStep
 
 };
 
+enum class Phase
+{
+
+};
+
 class HansMainLevel : public Level
 {
 public:
 	HansMainLevel();
 
 private:
-	void ReadFile(const char* filename);
+	void ReadFile(const char* filename,int type);
 
-	void LoadConvesation(ConversationStep conversationstep);
+	void LoadConversation(ConversationStep conversationstep);
 
 	// 파일 열기
 	FILE* OpenConversationFile(const char* filename);
+
+	void BoxClear();
 
 	void LoadAttackStage();
 };

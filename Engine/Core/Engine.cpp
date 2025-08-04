@@ -44,6 +44,11 @@ Engine::Engine()
 	// 엔진 설정 로드.
 	LoadEngineSettings();
 
+	// @Note: 관리자 권한으로 실행해야 적용됨.
+	HWND windowHandle = GetConsoleWindow();
+	MoveWindow(windowHandle, 0, 0, settings.screenSizeX, settings.screenSizeY, FALSE);
+
+
 	// 랜던 종자값(seed) 설정.
 	srand(static_cast<unsigned int>(time(nullptr)));
 }
@@ -276,6 +281,14 @@ void Engine::LoadEngineSettings()
 		else if (strcmp(header, "width") == 0)
 		{
 			sscanf_s(token, "width = %d", &settings.width);
+		}
+		else if (strcmp(header, "sizeX") == 0)
+		{
+			sscanf_s(token, "sizeX = %d", &settings.screenSizeX);
+		}
+		else if (strcmp(header, "sizeY") == 0)
+		{
+			sscanf_s(token, "sizeY = %d", &settings.screenSizeY);
 		}
 		else if (strcmp(header, "height") == 0)
 		{
