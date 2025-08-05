@@ -10,7 +10,6 @@
 HansMainLevel::HansMainLevel()
 {
 	Utils::ReadFile("Hans.txt", 0);
-	GamePhase = Phase::Conversation;
 	PreviousPhase = Phase::Attack;
 	LoadConversation(ConversationStep::Start);
 }
@@ -30,51 +29,60 @@ void HansMainLevel::Tick(float deltaTime)
 
 	if (Input::Get().GetKeyDown(VK_SPACE))
 	{
-		if (GamePhase == Phase::Conversation)
+		if (Input::Get().GetGamePhase() == Phase::Conversation)
 		{
 			BoxClear();
 			if (PreviousPhase == Phase::Attack)
 			{
 				// 방어 로드.
-				GamePhase = Phase::Defence;
+				Input::Get().SetGamePhase(Phase::Defence);
 				LoadDefenceStage();
 			}
-			else
+			else if(PreviousPhase == Phase::Defence)
 			{
 				// 공격 로드.
-				GamePhase = Phase::Attack;
+				Input::Get().SetGamePhase(Phase::Attack);
+				Utils::SetCursorBoxByPos(5, 5);
+				std::cout << "Test";
 				LoadAttackStage();
 			}
 		}
 	}
 
-	//if (GamePhase==Phase::DefenceSuccess)
-	//{
-	//	 BoxClear();
-	//	 PreviousPhase = Phase::Defence;
-	//   LoadConversation(ConversationStep::DefenceSuccess);
-	//  
-	//}else if(GamePhase==Phase::DefenceFail)
-	// {
-	//	 BoxClear();
-	//	 PreviousPhase = Phase::Defence;
-	//   LoadConversation(ConversationStep::DefenceFail);
-	// }
-	//
+	if (Input::Get().GetGamePhase() == Phase::DefenceSuccess)
+	{
+		 BoxClear();
+		 Utils::SetCursorBoxByPos(0, -1);
+		 CreateWin();
+		 PreviousPhase = Phase::Defence;
+	     LoadConversation(ConversationStep::DefenceSuccess);
+	  
+	}else if(Input::Get().GetGamePhase() ==Phase::DefenceFail)
+	 {
+		 BoxClear();
+	     Utils::SetCursorBoxByPos(0, -1);
+		 CreateWin();
+		 PreviousPhase = Phase::Defence;
+	     LoadConversation(ConversationStep::DefenceFail);
+	 }
+	
 
-	//// 공격 성공여부에 따라 실행
-	//if (GamePhase==Phase::AttackSuccess)
-	//{
-	//		// 공격 성공 변수 false로
-	//		BoxClear();
-	//		PreviousPhase = Phase::Defence;
-	//		LoadConversation(ConversationStep::OnDamage);
-	//}
-	//else if(GamePhase==Phase::AttackFail){
-	//	    BoxClear();
-	//      PreviousPhase = Phase::Defence;
-	//	    LoadConversation(ConversationStep::NoDamage);
-	//}
+	// 공격 성공여부에 따라 실행
+	if (Input::Get().GetGamePhase() ==Phase::AttackSuccess)
+	{
+		BoxClear();
+		Utils::SetCursorBoxByPos(0, -1);
+		CreateWin();
+		PreviousPhase = Phase::Attack;
+		LoadConversation(ConversationStep::OnDamage);
+	}
+	else if(Input::Get().GetGamePhase() == Phase::AttackFail){
+		BoxClear();
+		Utils::SetCursorBoxByPos(0, -1);
+		CreateWin();
+	    PreviousPhase = Phase::Attack;
+		LoadConversation(ConversationStep::NoDamage);
+	}
 
 	
 
@@ -110,7 +118,8 @@ void HansMainLevel::CreateWin()
 
 void HansMainLevel::LoadConversation(ConversationStep conversationstep)
 {	
-	GamePhase = Phase::Conversation;
+	Utils::SetConsoleTextSize(5);
+	Input::Get().SetGamePhase( Phase::Conversation);
 	Utils::SetCursorBoxByPos(1,0);
 
 	switch (conversationstep)
@@ -122,7 +131,7 @@ void HansMainLevel::LoadConversation(ConversationStep conversationstep)
 			Utils::ReadFile("NoDamageConversation.txt", 1);
 			break;
 		case ConversationStep::OnDamage :
-			Utils::ReadFile("OnDamage.txt", 1);
+			Utils::ReadFile("OnDamageConversation.txt", 1);
 			break;
 		case ConversationStep::PlayerDead :
 			Utils::ReadFile("PlayerDeadConversation.txt", 1);
@@ -137,13 +146,14 @@ void HansMainLevel::LoadConversation(ConversationStep conversationstep)
 			Utils::ReadFile("FinishConversation.txt", 1);
 			break;
 	}
+	Utils::SetConsoleTextSize(2);
 }
 
 
 void HansMainLevel::BoxClear()
 {
 	
-	for (int line = 18; line <= 31; line++)
+	for (int line = 18; line <= 33; line++)
 	{
 		Utils::SetConsolePosition(Vector2(1, line));
 		for (int ix = 1; ix < 87; ix++)
@@ -159,6 +169,7 @@ void HansMainLevel::LoadAttackStage()
 {
 	AttackBar* attackbar = new AttackBar();
 	AddActor(attackbar);
+
 	
 }
 
@@ -166,5 +177,6 @@ void HansMainLevel::LoadDefenceStage()
 {
 	Utils::SetCursorBoxByPos(5,5);
 	std::cout << "Test\n";
+	Input::Get().SetGamePhase(Phase::DefenceFail);
 }
 

@@ -7,6 +7,7 @@ class AttackBar : public Actor
 	RTTI_DECLARATIONS(AttackBar, Actor)
 public:
 	AttackBar();
+	~AttackBar();
 	
 	virtual void BeginPlay() override;
 	virtual void Tick(float deltaTime) override;

@@ -23,8 +23,22 @@ namespace Utils
 	{
 		return GetStdHandle(STD_OUTPUT_HANDLE);
 	}
-
 	
+	inline void SetConsoleTextSize(int size)
+	{
+		CONSOLE_FONT_INFOEX cfi;
+		cfi.cbSize = sizeof(cfi);
+		cfi.nFont = 0;
+		cfi.dwFontSize.X = size;
+		cfi.dwFontSize.Y = size;
+		cfi.FontFamily = FF_DONTCARE;
+		cfi.FontWeight = FW_NORMAL;
+		wcscpy_s(cfi.FaceName, TEXT("Raster Fonts"));
+
+		SetCurrentConsoleFontEx(GetConsoleHandle(), FALSE, &cfi);
+	}
+
+
 
 	// 콘솔 커서 위치 이동 함수.
 	inline void SetConsolePosition(COORD coord)

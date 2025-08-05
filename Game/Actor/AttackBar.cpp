@@ -3,6 +3,7 @@
 #include "Utils/Utils.h"
 #include "Level/HansMainLevel.h"
 #include <iostream>
+#include "Input.h"
 
 AttackBar::AttackBar()
 	: Actor("|", Color::Red)
@@ -10,6 +11,11 @@ AttackBar::AttackBar()
 	position.x = 1;
 	position.y = 0;
 	xPosition = 0;
+}
+
+AttackBar::~AttackBar()
+{
+	
 }
 
 void AttackBar::BeginPlay()
@@ -25,30 +31,36 @@ void AttackBar::Tick(float deltaTime)
 	position.x = position.x + (deltaTime * 40);
 	//position.x = (int)xPosition;
 
-	if (position.x>88)
-	{
-		Utils::SetConsoleTextColor(Color::White);
-		//GamePhase = Phase::AttackFail;
-		Destroy();
-		return;
-	}
-
-	SetPosition(Position());
-
 	if (Input::Get().GetKeyDown(VK_SPACE))
 	{
+
 		Utils::SetConsoleTextColor(Color::White);
 		if (isCollided())
 		{
-			//GamePhase = Phase::AttackSuccess;
+			Input::Get().SetGamePhase(Phase::AttackSuccess);
 		}
 		else {
-			//GamePhase = Phase::AttackFail;
+			Input::Get().SetGamePhase(Phase::AttackFail);
 		}
 		Destroy();
 
 		return;
 	}
+
+	
+	if (position.x>88)
+	{
+		Utils::SetConsoleTextColor(Color::White);
+		Input::Get().SetGamePhase(Phase::AttackFail);
+		Destroy();
+		return;
+	}
+	
+	
+
+	SetPosition(Position());
+
+	
 }
 
 void AttackBar::Render()
@@ -69,6 +81,7 @@ bool AttackBar::isCollided()
 	if (position.x >= 44 && position.x <= 46)
 	{
 		return true;
+		Sleep(100);
 	}
 	else {
 		return false;

@@ -2,6 +2,18 @@
 
 #include "Core.h"
 
+enum class Phase
+{
+	Conversation = 1,
+	Attack,
+	Defence,
+	AttackSuccess,
+	AttackFail,
+	DefenceSuccess,
+	DefenceFail
+};
+
+
 class Engine_API Input
 {
 	friend class Engine;
@@ -22,6 +34,9 @@ public:
 	bool GetKeyDown(int keyCode);
 	bool GetKeyUp(int keyCode);
 
+	inline Phase& GetGamePhase() { return GamePhase; }
+	inline void SetGamePhase(Phase phase) { GamePhase = phase;  }
+
 	static Input& Get();
 
 private:
@@ -32,6 +47,8 @@ private:
 
 	// 키 입력 정보 관리 변수.
 	KeyState keyStates[255] = {};
+
+	Phase GamePhase;
 
 	static Input* instance;
 };

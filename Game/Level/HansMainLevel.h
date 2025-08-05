@@ -1,5 +1,6 @@
 #pragma once
 #include "Level/Level.h"
+#include "Input.h"
 
 enum class ConversationStep
 {
@@ -10,19 +11,9 @@ enum class ConversationStep
 	DefenceSuccess,
 	DefenceFail,
 	Finish
-
 };
 
-enum class Phase
-{
-	Conversation = 1,
-	Attack,
-	Defence,
-	AttackSuccess,
-	AttackFail,
-	DefenceSuccess,
-	DefenceFail
-};
+
 
 class HansMainLevel : public Level
 {
@@ -49,7 +40,6 @@ private:
 
 	void LoadDefenceStage();
 	
-	Phase GamePhase;
 
 private:
 	Phase PreviousPhase;

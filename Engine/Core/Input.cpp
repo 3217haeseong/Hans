@@ -7,6 +7,7 @@ Input::Input()
 {
 	// 싱글톤 실행을 위해 instance 변수 설정.
 	instance = this;
+	GamePhase = Phase::Conversation;
 }
 
 void Input::ProcessInput()
