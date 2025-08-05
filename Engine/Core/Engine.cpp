@@ -22,6 +22,8 @@ BOOL WINAPI ConsoleMessageProcedure(DWORD CtrlType)
 		Engine::Get().CleanUp();
 		return false;
 	}
+
+	return false;
 }
 
 Engine::Engine()

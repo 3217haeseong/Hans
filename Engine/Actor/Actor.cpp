@@ -43,8 +43,9 @@ void Actor::Render()
 
 	// 커서 이동.
 	//SetConsoleCursorPosition(handle, coord);
-	Utils::SetConsolePosition(position);
-
+	//Utils::SetConsolePosition(position);
+	//Utils::SetCursorBoxStart();
+	Utils::SetCursorBoxByPos(position.x, position.y);
 	// 색상 설정.
 	//SetConsoleTextAttribute(handle, (WORD)color);
 	Utils::SetConsoleTextColor(color);

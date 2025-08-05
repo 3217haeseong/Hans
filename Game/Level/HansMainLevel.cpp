@@ -4,115 +4,137 @@
 #include "Utils/Utils.h"
 #include "Actor/AttackBar.h"
 #include "Actor/Player.h"
+#include "Level/Level.h"
+#include "Input.h"
 
 HansMainLevel::HansMainLevel()
 {
-	ReadFile("Hans.txt",0);
-	
-	//LoadConversation(ConversationStep::Start);
-	
-	//	BoxClear();
-	 LoadAttackStage();
+	Utils::ReadFile("Hans.txt", 0);
+	GamePhase = Phase::Conversation;
+	PreviousPhase = Phase::Attack;
+	LoadConversation(ConversationStep::Start);
 }
 
-void HansMainLevel::ReadFile(const char* filename, int type)
+void HansMainLevel::BeginPlay()
 {
-	char filepath[100] = {};
-	sprintf_s(filepath, 100, "../Assets/%s", filename);
+	super::BeginPlay();
 
-	FILE* file = nullptr;
-	fopen_s(&file, filepath, "rt");
+}
 
-	if(type == 1)
+void HansMainLevel::Tick(float deltaTime)
+{
+	super::Tick(deltaTime);
+
+	//Utils::SetCursorBoxByPos(0, -1);
+	//Utils::ReadFile("Window.txt", 0);
+
+	if (Input::Get().GetKeyDown(VK_SPACE))
 	{
-		std::locale::global(std::locale(".UTF-8"));
+		if (GamePhase == Phase::Conversation)
+		{
+			BoxClear();
+			if (PreviousPhase == Phase::Attack)
+			{
+				// 방어 로드.
+				GamePhase = Phase::Defence;
+				LoadDefenceStage();
+			}
+			else
+			{
+				// 공격 로드.
+				GamePhase = Phase::Attack;
+				LoadAttackStage();
+			}
+		}
 	}
 
-	// 예외 처리.
-	if (file == nullptr)
-	{
-		std::cout << "맵 파일 읽기 실패." << filename << "\n";
-		__debugbreak();
-		return;
-	}
-
-	// 파싱(Parcing, 해석)
-	fseek(file, 0, SEEK_END);
-	size_t fileSize = ftell(file);
-	rewind(file);
-
-	// 확인한 파일 크기를 활용해 버퍼 할당.
-	char* buffer = new char[fileSize + 1];
-	//buffer[fileSize] = '\0';
-	memset(buffer, 0, fileSize + 1);
-	size_t readSize = fread(buffer, sizeof(char), fileSize, file);
-
-	//if (fileSize != readSize)
+	//if (GamePhase==Phase::DefenceSuccess)
 	//{
-	//	std::cout << "fileSize is not matched with readSize.\n";
+	//	 BoxClear();
+	//	 PreviousPhase = Phase::Defence;
+	//   LoadConversation(ConversationStep::DefenceSuccess);
+	//  
+	//}else if(GamePhase==Phase::DefenceFail)
+	// {
+	//	 BoxClear();
+	//	 PreviousPhase = Phase::Defence;
+	//   LoadConversation(ConversationStep::DefenceFail);
+	// }
+	//
+
+	//// 공격 성공여부에 따라 실행
+	//if (GamePhase==Phase::AttackSuccess)
+	//{
+	//		// 공격 성공 변수 false로
+	//		BoxClear();
+	//		PreviousPhase = Phase::Defence;
+	//		LoadConversation(ConversationStep::OnDamage);
+	//}
+	//else if(GamePhase==Phase::AttackFail){
+	//	    BoxClear();
+	//      PreviousPhase = Phase::Defence;
+	//	    LoadConversation(ConversationStep::NoDamage);
 	//}
 
-	// 배열 순회를 위한 인덱스 변수.
-	int index = 0;
+	
+
+	// 플레이어가 죽었을 때
+	//if ()
+	//{
+	//	//BoxClear();
+	//	// LoadConversation("PlayerDeadConversation.txt");
+	//}
+
+	//// 샌즈가 죽었을 때
+	//if ()
+	//{
+	//	//BoxClear();
+	//	// LoadConversation("FinishConversation.txt");
+	//	// 축하합니다 메시지
+	//}
 
 
-	// 문자열 길이 값.
-	int size = (int)readSize;
 
-	// x,y 좌표.
-	//Vector2 position;
+}
 
-	// 문자 배열 순회.
-	while (index < size)
-	{
-		// 맵 문자 확인.
-		char mapCharacter = buffer[index++];
-
-		// 개행 문자 처리.
-		if (mapCharacter == '\n')
-		{
-
-			std::cout << "\n";
-			if (type == 1)
-			{
-				std::cout << " ";
-			}
-			continue;
-		}
-
-		std::cout << mapCharacter;
+void HansMainLevel::Render()
+{
+	super::Render();
+}
 
 
-	}
-
-	// 버퍼 해제.
-	delete[] buffer;
-
-	// 파일 닫기.
-	fclose(file);
+void HansMainLevel::CreateWin()
+{
+	Utils::ReadFile("Window.txt",0);
 }
 
 void HansMainLevel::LoadConversation(ConversationStep conversationstep)
 {	
-	Utils::SetCursorBoxStart();
+	GamePhase = Phase::Conversation;
+	Utils::SetCursorBoxByPos(1,0);
 
 	switch (conversationstep)
 	{
 		case ConversationStep::Start :
-			ReadFile("StartConversation.txt",1);
+			Utils::ReadFile("StartConversation.txt",1);
 			break;
 		case ConversationStep::NoDamage :
-			ReadFile("NoDamageConversation.txt", 1);
+			Utils::ReadFile("NoDamageConversation.txt", 1);
 			break;
 		case ConversationStep::OnDamage :
-			ReadFile("OnDamage.txt", 1);
+			Utils::ReadFile("OnDamage.txt", 1);
 			break;
 		case ConversationStep::PlayerDead :
-			ReadFile("PlayerDeadConversation.txt", 1);
+			Utils::ReadFile("PlayerDeadConversation.txt", 1);
 			break;
-
+		case ConversationStep::DefenceSuccess:
+			Utils::ReadFile("DefenceSuccess.txt", 1);
+			break;
+		case ConversationStep::DefenceFail:
+			Utils::ReadFile("DefenceFail.txt",1);
+			break;
 		case ConversationStep::Finish :
-			ReadFile("FinishConversation.txt", 1);
+			Utils::ReadFile("FinishConversation.txt", 1);
 			break;
 	}
 }
@@ -135,10 +157,14 @@ void HansMainLevel::BoxClear()
 
 void HansMainLevel::LoadAttackStage()
 {
-	Utils::SetCursorBoxStart();
-	ReadFile("Attack.txt",0);
-	Vector2 PlayerPosition(44, 25);
-	//AddActor(new Player(PlayerPosition));
-	AddActor(new AttackBar());
+	AttackBar* attackbar = new AttackBar();
+	AddActor(attackbar);
+	
+}
+
+void HansMainLevel::LoadDefenceStage()
+{
+	Utils::SetCursorBoxByPos(5,5);
+	std::cout << "Test\n";
 }
 

@@ -7,29 +7,51 @@ enum class ConversationStep
 	NoDamage,
 	OnDamage,
 	PlayerDead,
+	DefenceSuccess,
+	DefenceFail,
 	Finish
 
 };
 
 enum class Phase
 {
-
+	Conversation = 1,
+	Attack,
+	Defence,
+	AttackSuccess,
+	AttackFail,
+	DefenceSuccess,
+	DefenceFail
 };
 
 class HansMainLevel : public Level
 {
+	RTTI_DECLARATIONS(HansMainLevel, Level )
+
 public:
+
 	HansMainLevel();
 
+	virtual void BeginPlay() override;
+	virtual void Tick(float deltaTime) override;
+	virtual void Render() override;
+
 private:
-	void ReadFile(const char* filename,int type);
+	//void ReadFile(const char* filename,int type);
+
+	void CreateWin();
 
 	void LoadConversation(ConversationStep conversationstep);
-
-	// 파일 열기
-	FILE* OpenConversationFile(const char* filename);
 
 	void BoxClear();
 
 	void LoadAttackStage();
+
+	void LoadDefenceStage();
+	
+	Phase GamePhase;
+
+private:
+	Phase PreviousPhase;
+
 };
