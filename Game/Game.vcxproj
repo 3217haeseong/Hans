@@ -20,14 +20,22 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor\AttackBar.cpp" />
+    <ClCompile Include="Actor\Beam.cpp" />
+    <ClCompile Include="Actor\HansHP.cpp" />
     <ClCompile Include="Actor\Player.cpp" />
+    <ClCompile Include="Actor\PlayerHP.cpp" />
+    <ClCompile Include="Actor\Warning.cpp" />
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="Level\HansMainLevel.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor\AttackBar.h" />
+    <ClInclude Include="Actor\Beam.h" />
+    <ClInclude Include="Actor\HansHP.h" />
     <ClInclude Include="Actor\Player.h" />
+    <ClInclude Include="Actor\PlayerHP.h" />
+    <ClInclude Include="Actor\Warning.h" />
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="Level\HansMainLevel.h" />
   </ItemGroup>

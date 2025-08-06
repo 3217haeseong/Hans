@@ -4,6 +4,7 @@
 #include "Math/Vector2.h"
 #include "Math/Color.h"
 #include <iostream>
+#include "dwrite.h"
 
 // 프로젝트에서 다양하게 사용할 유틸리티 함수 모음.
 namespace Utils
@@ -24,21 +25,6 @@ namespace Utils
 		return GetStdHandle(STD_OUTPUT_HANDLE);
 	}
 	
-	inline void SetConsoleTextSize(int size)
-	{
-		CONSOLE_FONT_INFOEX cfi;
-		cfi.cbSize = sizeof(cfi);
-		cfi.nFont = 0;
-		cfi.dwFontSize.X = size;
-		cfi.dwFontSize.Y = size;
-		cfi.FontFamily = FF_DONTCARE;
-		cfi.FontWeight = FW_NORMAL;
-		wcscpy_s(cfi.FaceName, TEXT("Raster Fonts"));
-
-		SetCurrentConsoleFontEx(GetConsoleHandle(), FALSE, &cfi);
-	}
-
-
 
 	// 콘솔 커서 위치 이동 함수.
 	inline void SetConsolePosition(COORD coord)
@@ -157,6 +143,7 @@ namespace Utils
 		int diff = (max - min) + 1;
 		return ((diff * rand()) / (RAND_MAX + 1)) + min;
 	}
+
 
 	inline float RandomFloat(float min, float max)
 	{

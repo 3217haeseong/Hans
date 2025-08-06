@@ -6,10 +6,23 @@
 #include "Actor/Player.h"
 #include "Level/Level.h"
 #include "Input.h"
+#include "Actor/PlayerHp.h"
+#include "Engine.h"
+#include "Actor/Beam.h"
+#include "Actor/Warning.h"
 
 HansMainLevel::HansMainLevel()
 {
 	Utils::ReadFile("Hans.txt", 0);
+	Utils::SetCursorBoxByPos(10, 17);
+	std::cout << "HP :";
+
+	playerhp = new PlayerHP(Vector2(17, 17));
+	AddActor(playerhp);
+
+	hanshp = new HansHP(Vector2(64, 17));
+	AddActor(hanshp);
+
 	PreviousPhase = Phase::Attack;
 	LoadConversation(ConversationStep::Start);
 }
@@ -20,12 +33,16 @@ void HansMainLevel::BeginPlay()
 
 }
 
+#define Test 0
+
 void HansMainLevel::Tick(float deltaTime)
 {
 	super::Tick(deltaTime);
 
 	//Utils::SetCursorBoxByPos(0, -1);
 	//Utils::ReadFile("Window.txt", 0);
+
+	
 
 	if (Input::Get().GetKeyDown(VK_SPACE))
 	{
@@ -35,15 +52,15 @@ void HansMainLevel::Tick(float deltaTime)
 			if (PreviousPhase == Phase::Attack)
 			{
 				// 방어 로드.
+				CreateWin();
 				Input::Get().SetGamePhase(Phase::Defence);
-				LoadDefenceStage();
+				LoadBeamStage();
 			}
 			else if(PreviousPhase == Phase::Defence)
 			{
 				// 공격 로드.
+				CreateWin();
 				Input::Get().SetGamePhase(Phase::Attack);
-				Utils::SetCursorBoxByPos(5, 5);
-				std::cout << "Test";
 				LoadAttackStage();
 			}
 		}
@@ -52,7 +69,6 @@ void HansMainLevel::Tick(float deltaTime)
 	if (Input::Get().GetGamePhase() == Phase::DefenceSuccess)
 	{
 		 BoxClear();
-		 Utils::SetCursorBoxByPos(0, -1);
 		 CreateWin();
 		 PreviousPhase = Phase::Defence;
 	     LoadConversation(ConversationStep::DefenceSuccess);
@@ -60,7 +76,6 @@ void HansMainLevel::Tick(float deltaTime)
 	}else if(Input::Get().GetGamePhase() ==Phase::DefenceFail)
 	 {
 		 BoxClear();
-	     Utils::SetCursorBoxByPos(0, -1);
 		 CreateWin();
 		 PreviousPhase = Phase::Defence;
 	     LoadConversation(ConversationStep::DefenceFail);
@@ -70,15 +85,16 @@ void HansMainLevel::Tick(float deltaTime)
 	// 공격 성공여부에 따라 실행
 	if (Input::Get().GetGamePhase() ==Phase::AttackSuccess)
 	{
+		ClearHP(Vector2(64, 17));
+		hanshp->Damage();
 		BoxClear();
-		Utils::SetCursorBoxByPos(0, -1);
 		CreateWin();
 		PreviousPhase = Phase::Attack;
 		LoadConversation(ConversationStep::OnDamage);
 	}
 	else if(Input::Get().GetGamePhase() == Phase::AttackFail){
+		
 		BoxClear();
-		Utils::SetCursorBoxByPos(0, -1);
 		CreateWin();
 	    PreviousPhase = Phase::Attack;
 		LoadConversation(ConversationStep::NoDamage);
@@ -93,16 +109,27 @@ void HansMainLevel::Tick(float deltaTime)
 	//	// LoadConversation("PlayerDeadConversation.txt");
 	//}
 
-	//// 샌즈가 죽었을 때
-	//if ()
-	//{
-	//	//BoxClear();
-	//	// LoadConversation("FinishConversation.txt");
-	//	// 축하합니다 메시지
-	//}
-
-
-
+	// 샌즈가 죽었을 때
+#if !Test
+	if (hanshp->GetHP() == 0)
+#else
+#endif
+	{
+		ClearHP(Vector2(64, 17));
+		BoxClear();
+		CreateWin();
+		LoadConversation(ConversationStep::Finish);
+		Utils::SetCursorBoxByPos(0, 18);
+		while (1)
+		{
+			//if (Input::Get().GetKeyDown(VK_ESCAPE))
+			if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
+			{
+				Engine::Get().Quit();
+				break;
+			}
+		}
+	}
 }
 
 void HansMainLevel::Render()
@@ -113,12 +140,12 @@ void HansMainLevel::Render()
 
 void HansMainLevel::CreateWin()
 {
+	Utils::SetCursorBoxByPos(0, -1);
 	Utils::ReadFile("Window.txt",0);
 }
 
 void HansMainLevel::LoadConversation(ConversationStep conversationstep)
 {	
-	Utils::SetConsoleTextSize(5);
 	Input::Get().SetGamePhase( Phase::Conversation);
 	Utils::SetCursorBoxByPos(1,0);
 
@@ -146,7 +173,6 @@ void HansMainLevel::LoadConversation(ConversationStep conversationstep)
 			Utils::ReadFile("FinishConversation.txt", 1);
 			break;
 	}
-	Utils::SetConsoleTextSize(2);
 }
 
 
@@ -162,8 +188,8 @@ void HansMainLevel::BoxClear()
 		}
 		std::cout << "\n";
 	}
-	
 }
+
 
 void HansMainLevel::LoadAttackStage()
 {
@@ -173,10 +199,42 @@ void HansMainLevel::LoadAttackStage()
 	
 }
 
-void HansMainLevel::LoadDefenceStage()
+void HansMainLevel::LoadBeamStage()
 {
-	Utils::SetCursorBoxByPos(5,5);
-	std::cout << "Test\n";
-	Input::Get().SetGamePhase(Phase::DefenceFail);
+	Player* player = new Player(Vector2(43, 8));
+	AddActor(player);
+
+	Vector2 ToDown=Vector2(Utils::Random(0,87),Utils::Random(0,15) );
+	Vector2 ToUp= Vector2(Utils::Random(0,87),Utils::Random(1,16) );
+	Vector2 ToRight = Vector2(Utils::Random(0,45),Utils::Random(0,13) );
+	Vector2 ToLeft= Vector2(Utils::Random(46,88),Utils::Random(0,13) );
+	
+	AddActor(new Warning(ToDown, Direction::Down));
+	AddActor(new Warning(ToUp, Direction::Up));
+	AddActor(new Warning(ToRight, Direction::Right));
+	AddActor(new Warning(ToLeft, Direction::Left));
+	
+	//시간이 넘어야 아래 실행.
+
+	AddActor(new Beam(ToDown, Direction::Down));
+	AddActor(new Beam(ToUp, Direction::Up));
+	AddActor(new Beam(ToRight, Direction::Right));
+	AddActor(new Beam(ToLeft, Direction::Left));
+
+
+	//Input::Get().SetGamePhase(Phase::DefenceFail);
 }
+
+void HansMainLevel::ClearHP(Vector2 position)
+{
+	Utils::SetCursorBoxByPos(position.x,position.y);
+	for (int i = 0; i < 20; i++)
+	{
+		std::cout << " ";
+	}
+
+}
+
+
+
 

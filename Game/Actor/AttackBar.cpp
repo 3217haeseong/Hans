@@ -78,10 +78,9 @@ void AttackBar::Render()
 
 bool AttackBar::isCollided()
 {
-	if (position.x >= 44 && position.x <= 46)
+	if (position.x >= 46 && position.x <= 48)
 	{
 		return true;
-		Sleep(100);
 	}
 	else {
 		return false;

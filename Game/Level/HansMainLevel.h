@@ -1,6 +1,8 @@
 #pragma once
 #include "Level/Level.h"
 #include "Input.h"
+#include "Actor/HansHP.h"
+#include "Actor/PlayerHp.h"
 
 enum class ConversationStep
 {
@@ -38,10 +40,17 @@ private:
 
 	void LoadAttackStage();
 
-	void LoadDefenceStage();
+	void LoadBeamStage();
+
+	void ClearHP(Vector2 position);
+
 	
 
 private:
 	Phase PreviousPhase;
+
+	PlayerHP* playerhp;
+
+	HansHP* hanshp;
 
 };
