@@ -10,7 +10,11 @@ enum class Phase
 	AttackSuccess,
 	AttackFail,
 	DefenceSuccess,
-	DefenceFail
+	DefenceFail,
+	AlertDelay,
+	BeamAttack,
+	AfterAttack,
+	Alert
 };
 
 

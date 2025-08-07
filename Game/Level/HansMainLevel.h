@@ -3,6 +3,7 @@
 #include "Input.h"
 #include "Actor/HansHP.h"
 #include "Actor/PlayerHp.h"
+#include "ctime"
 
 enum class ConversationStep
 {
@@ -36,15 +37,11 @@ private:
 
 	void LoadConversation(ConversationStep conversationstep);
 
-	void BoxClear();
-
 	void LoadAttackStage();
 
 	void LoadBeamStage();
 
 	void ClearHP(Vector2 position);
-
-	
 
 private:
 	Phase PreviousPhase;
@@ -52,5 +49,15 @@ private:
 	PlayerHP* playerhp;
 
 	HansHP* hanshp;
+	
+	Vector2 ToDown;
+	Vector2 ToUp;
+	Vector2 ToRight;
+	Vector2 ToLeft;
+
+	clock_t start;
+	clock_t end;
+	int timer;
+
 
 };

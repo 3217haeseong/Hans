@@ -2,11 +2,13 @@
 #include "Math/Vector2.h"
 #include "Math/Color.h"
 #include "Input.h"
+#include "ctime"
+#include "Utils/Utils.h"
 
 Beam::Beam(Vector2 position, Direction type)
 	:Actor (" ",Color::Blue)
 {
-	SetPosition(position);
+	this->position = position;
 	xPosition = position.x;
 	yPosition = position.y;
 	Type = type;
@@ -21,16 +23,19 @@ Beam::Beam(Vector2 position, Direction type)
 	}
 	else if (type == Direction::Right)
 	{
-		strcpy_s(this->image, length + 1, "]");
+		strcpy_s(this->image, length + 1, ">");
 	}
 	else if (type == Direction::Left)
 	{
-		strcpy_s(this->image, length + 1, "[");
+		strcpy_s(this->image, length + 1, "<");
 	}
+	start = clock();
+	end = clock();
 }
 
 Beam::~Beam()
 {
+	Utils::SetConsoleTextColor(Color::White);
 }
 
 void Beam::BeginPlay()
@@ -42,8 +47,13 @@ void Beam::BeginPlay()
 void Beam::Tick(float deltaTime)
 {
 	super::Tick(deltaTime);
-
-	//충돌 처리.
+	end = clock();
+	timer = (end - start) / CLOCKS_PER_SEC;
+	if (timer > 1)
+	{
+		Utils::BoxClear();
+		Destroy();
+	}
 
 }
 
@@ -79,7 +89,7 @@ void Beam::Render()
 	}
 	else if (Type == Direction::Left)
 	{
-		for (int jx = 0; jx <= xPosition ; jx++)
+		for (int jx = 1; jx <= xPosition ; jx++)
 		{
 			position.x = jx;
 			for (int ix = 0; ix < 3; ++ix)
@@ -92,7 +102,7 @@ void Beam::Render()
 	}
 	else if (Type == Direction::Right)
 	{
-		for (int jx = xPosition; jx <= 89; jx++)
+		for (int jx = xPosition; jx <= 87; jx++)
 		{
 			position.x = jx;
 			for (int ix = 0; ix < 3; ++ix)

@@ -65,19 +65,19 @@ void Actor::SetPosition(const Vector2& newPosition)
 	}
 
 	// 오른쪽 가장자리가 화면 오른쪽을 벗어났는지.
-	if (newPosition.x + width - 1 > Engine::Get().Width())
+	if (newPosition.x + 2 -1 >= 88)
 	{
 		return;
 	}
 
 	// 위쪽 가장자리가 화면의 위를 벗어났는지
-	if (newPosition.y < 0)
+	if (newPosition.y >=19 )
 	{
 		return;
 	}
 
 	// 화면 아래를 벗어났는지
-	if (newPosition.y - 1 > Engine::Get().Height())
+	if (newPosition.y - 1 <= 33)
 	{
 
 	}
@@ -99,6 +99,7 @@ void Actor::SetPosition(const Vector2& newPosition)
 
 	position = newPosition;
 }
+
 
 Vector2 Actor::Position() const
 {

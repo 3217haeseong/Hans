@@ -1,12 +1,15 @@
 #include "Warning.h"
-#include "ctime"
+#include "Utils/Utils.h"
 
 Warning::Warning(Vector2 position, Direction type)
 	:Beam(position, type)
 {
 	color = Color::Red;
-    startTime = clock();
-	endTime = clock(); //종료 시간
+}
+
+Warning::~Warning()
+{
+	Utils::SetConsoleTextColor(Color::White);
 }
 
 void Warning::BeginPlay()
@@ -16,10 +19,11 @@ void Warning::BeginPlay()
 
 void Warning::Tick(float deltaTime)
 {
-	timer = (endTime - startTime) / CLOCKS_PER_SEC;
-
-	if (timer>1)
+	end = clock();
+	timer = (end - start) / CLOCKS_PER_SEC;
+	if (timer > 0.75)
 	{
+		Utils::BoxClear();
 		Destroy();
 	}
 }

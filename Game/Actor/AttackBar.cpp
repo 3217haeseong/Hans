@@ -5,6 +5,7 @@
 #include <iostream>
 #include "Input.h"
 
+
 AttackBar::AttackBar()
 	: Actor("|", Color::Red)
 {
@@ -56,11 +57,8 @@ void AttackBar::Tick(float deltaTime)
 		return;
 	}
 	
-	
-
 	SetPosition(Position());
 
-	
 }
 
 void AttackBar::Render()

@@ -144,6 +144,19 @@ namespace Utils
 		return ((diff * rand()) / (RAND_MAX + 1)) + min;
 	}
 
+	inline void BoxClear()
+	{
+		for (int line = 18; line <= 33; line++)
+		{
+			Utils::SetConsolePosition(Vector2(1, line));
+			for (int ix = 1; ix < 87; ix++)
+			{
+				std::cout << " ";
+			}
+			std::cout << "\n";
+		}
+	}
+
 
 	inline float RandomFloat(float min, float max)
 	{
